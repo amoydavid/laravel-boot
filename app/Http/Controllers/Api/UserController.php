@@ -15,7 +15,8 @@ class UserController extends Controller
         $wxUser = $miniUserService->createUser($request);
         $token = $wxUser->createToken("API");
         return Response::ok([
-            'token'=>$token->plainTextToken
+            'token'=>$token->plainTextToken,
+            'expires' => $token->accessToken->getAttributeValue("expired_at"),
         ]);
     }
 
