@@ -1,0 +1,53 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Naming API",
+        "description": "The Naming Project Api",
+        "contact": {
+            "email": "t-liu@qq.com"
+        },
+        "version": "1.0.0",
+        "x-logo": {
+            "url": "https://via.placeholder.com/190x90.png?text=Naming"
+        }
+    },
+    "paths": {
+        "/card/detail": {
+            "post": {
+                "tags": [
+                    "card"
+                ],
+                "summary": "获得名片详细信息",
+                "operationId": "7e9a766d908ecb914bd0107d5787d3ab",
+                "requestBody": {
+                    "description": "返劳务款操作参数",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "名片ID",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "addHot": {
+                                        "description": "是否添加热度",
+                                        "type": "boolean",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    }
+}
