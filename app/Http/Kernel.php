@@ -4,7 +4,6 @@ namespace App\Http;
 
 use App\Http\Middleware\MiniAppSignature;
 use App\Http\Middleware\RequireAdmin;
-use App\Http\Middleware\RequireCard;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel

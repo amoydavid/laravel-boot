@@ -15,11 +15,9 @@ class SystemService
 {
     public function createQr(Request $request, string $path)
     {
-        $cardId = $request->card()?$request->card()->id:0;
         $wxUid = intval(\Auth::id());
 
         $oldScene = MiniScene::where('path', $path)
-            ->where('card_id', $cardId)
             ->where('wx_uid', $wxUid)
             ->first();
         if(!$oldScene) {
@@ -31,7 +29,6 @@ class SystemService
             $MiniScene = new MiniScene();
             $MiniScene->code = $scene;
             $MiniScene->path = $path;
-            $MiniScene->card_id = $cardId;
             $MiniScene->wx_uid = $wxUid;
             if(!$MiniScene->save()) {
                 throw new ApiException('生成链接出错');

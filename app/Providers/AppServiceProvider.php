@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\NameCard;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\ServiceProvider;
 
