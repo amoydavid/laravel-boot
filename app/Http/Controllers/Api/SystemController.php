@@ -7,40 +7,21 @@ use App\Models\MiniScene;
 use App\Models\Option;
 use App\Models\UploadFile;
 use App\Models\WxUser;
+use App\Services\SystemService;
 use App\Util\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class SystemController extends Controller
 {
-    public function upload(Request $request)
+    public function upload(Request $request, SystemService $systemService)
     {
-        $file = $request->file('file');
-        $ext = strtolower($file->extension());
-        $mime = strtolower($file->getMimeType());
-        $fileSize = $file->getSize()?:0;
-        $fileName = date("His").'-'.\Str::random();
-        $path = date('Ymd');
-        $savePath = $file->storeAs($path, $fileName.'.'.$ext);
-        if($savePath) {
-            $UploadFile = new UploadFile();
-            $UploadFile->user()->associate($request->user());
-            $UploadFile->path = $savePath;
-            $UploadFile->mime = $mime;
-            $UploadFile->size = $fileSize;
-            $UploadFile->ext = $ext;
-            $UploadFile->driver = config('filesystems.default');
-            $UploadFile->save();
-            $disk = \Storage::disk();
-            $url = $disk->url($savePath);
-            return Response::ok([
-                'path' => $savePath,
-                'url'=>$url
-            ]);
-        } else {
-            return Response::fail("upload failed");
-        }
-
+        $UploadFile = $systemService->upload($request);
+        $disk = \Storage::disk();
+        return Response::ok([
+            'path' => $UploadFile->path,
+            'url' => $disk->url($UploadFile->path),
+        ]);
     }
 
 

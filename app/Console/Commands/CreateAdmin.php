@@ -14,7 +14,7 @@ class CreateAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'app:create.admin {username?}';
+    protected $signature = 'app:create.admin';
 
     /**
      * The console command description.
@@ -30,28 +30,36 @@ class CreateAdmin extends Command
      */
     public function handle()
     {
-        $username = $this->argument('username');
-        if (!$username) {
-            do {
-                $username = $this->ask('Please input admin username');
-            } while (!$username);
-        }
         do {
-            $password = $this->secret('What is the user ['.$username.'] password?');
+            $email = $this->ask('Please input admin email');
+        } while (!$email);
+
+        do {
+            $phone = $this->ask('Please input mobile phone number');
+            if (!preg_match('/^1\d{10}$/', $phone)) {
+                $this->error("wrong mobile phone format");
+                $phone = "";
+            }
+        } while (!$phone);
+
+        $name = $this->ask('Please input real name');
+
+        do {
+            $password = $this->secret('What is the user ['.$email.'] password?');
         } while (!$password);
 
         $service = new SystemService();
 
         try {
-            if ($service->createAdmin($username, $password)) {
-                $this->info("{$username} created success");
+            if ($service->createAdmin($email, $password, $phone, $name)) {
+                $this->info("{$email} created success");
                 return Command::SUCCESS;
             } else {
-                $this->error("{$username} create failed");
+                $this->error("{$email} create failed");
                 return Command::FAILURE;
             }
         }catch (\Throwable $e) {
-            $this->error("{$username} create failed:".$e->getMessage());
+            $this->error("{$email} create failed:".$e->getMessage());
             return Command::FAILURE;
         }
     }

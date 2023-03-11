@@ -5,14 +5,38 @@ namespace App\Services;
 use App\Exceptions\ApiException;
 use App\Models\MiniScene;
 use App\Models\Permission;
+use App\Models\UploadFile;
 use App\Models\User;
-use App\Models\WxUser;
-use App\Util\ImageProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class SystemService
 {
+
+    public function upload(Request $request)
+    {
+        $file = $request->file('file')?:$request->file('uploadImage');
+        $ext = strtolower($file->extension());
+        $mime = strtolower($file->getMimeType());
+        $fileSize = $file->getSize()?:0;
+        $fileName = date("His").'-'.\Str::random();
+        $path = date('Ymd');
+        $savePath = $file->storeAs($path, $fileName.'.'.$ext);
+        if($savePath) {
+            $UploadFile = new UploadFile();
+            $UploadFile->user()->associate($request->user());
+            $UploadFile->path = $savePath;
+            $UploadFile->mime = $mime;
+            $UploadFile->size = $fileSize;
+            $UploadFile->ext = $ext;
+            $UploadFile->driver = config('filesystems.default');
+            $UploadFile->save();
+        } else {
+            throw new ApiException("上传失败");
+        }
+        return $UploadFile;
+    }
+
     public function createQr(Request $request, string $path)
     {
         $wxUid = intval(\Auth::id());
@@ -61,17 +85,23 @@ class SystemService
 
     }
 
-    public function createAdmin(string $username, string $password)
+    public function createAdmin(string $email, string $password, string $phone, string $name = '')
     {
-        $existsUser = User::where('email', $username)->exists();
+        $existsUser = User::where('email', $email)->exists();
         if($existsUser) {
-            throw new ApiException('同名用户已存在');
+            throw new ApiException('同email用户已存在');
+        }
+
+        $existsUser = User::where('phone', $phone)->exists();
+        if($existsUser) {
+            throw new ApiException('同手机号用户已存在');
         }
 
         $User = new User();
-        $User->name = $username;
+        $User->phone = $phone;
+        $User->name = $name?:$email;
         $User->password = password_hash($password, PASSWORD_DEFAULT);
-        $User->email = $username;
+        $User->email = $email;
         $User->email_verified_at = date('Y-m-d H:i:s');
         return $User->save();
     }

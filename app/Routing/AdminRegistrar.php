@@ -5,6 +5,7 @@ namespace App\Routing;
 
 use App\Http\Controllers\Admin\SystemController;
 use App\Routing\Admin\SystemRegistrar;
+use App\Routing\Admin\UserRegistrar;
 use App\Routing\Concerns\MapRouteRegistrars;
 use Illuminate\Contracts\Routing\Registrar;
 use Route;
@@ -19,6 +20,7 @@ class AdminRegistrar implements Contracts\RouteRegistrar
     // 子路由挂载到这里
     protected array $registrars = [
         SystemRegistrar::class,
+        UserRegistrar::class,
     ];
 
     public function map(Registrar $registrar): void
