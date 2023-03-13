@@ -17,6 +17,7 @@ class UserRegistrar implements \App\Routing\Contracts\RouteRegistrar
             Route::post('/info', [UserController::class, 'info'])->name('info');
             Route::post('/logout', [UserController::class, 'logout'])->name('logout');
             Route::post('/avatar-upload', [UserController::class, 'avatarUpload'])->name('avatarUpload');
+            Route::post('/password-modify', [UserController::class, 'modifyPassword'])->name('passwordModify');
         });
     }
 }

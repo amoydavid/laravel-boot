@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UserSetting\PasswordFormRequest;
 use App\Models\User;
 use App\Services\SystemService;
 use App\Util\Helper;
@@ -46,6 +47,17 @@ class UserController extends Controller
         return Response::ok([
             'url' => $url
         ]);
+    }
+
+    public function modifyPassword(PasswordFormRequest $request)
+    {
+        $form = $request->only(['new_password']);
+        $request->user()->password = password_hash($form['new_password'], PASSWORD_DEFAULT);
+        if(!$request->user()->save()) {
+            throw new ApiException("更新密码出错");
+        }
+
+        return Response::ok();
     }
 
     public function logout(Request $request)
