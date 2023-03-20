@@ -25,7 +25,7 @@ class FormRequest extends \Illuminate\Foundation\Http\FormRequest
             'show_parent' => 'boolean',
 //            'frame_src' => 'string',
 //            'icon' => 'string',
-            'parent_id' => 'int',
+            //'parent_id' => 'int',
             'type' => 'in:0,1'
         ];
     }

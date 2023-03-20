@@ -17,17 +17,17 @@ class Permission extends \Illuminate\Http\Resources\Json\JsonResource
             "path" => $this->resource->path,
             "component" => $this->resource->component,
             "meta" => [
-                "locale" => $this->resource->title,
+                "label" => $this->resource->title,
+                "requiresAuth" => true,
                 "hideInMenu" => $this->resource->hidden,
                 "hideChildrenInMenu" => !$this->resource->always_show,
                 "activeMenu" => $this->resource->active_menu,
-                "noAffix" => $this->resource->affix,
+                "noAffix" => !$this->resource->affix,
                 "frameSrc" => $this->resource->frame_src,
                 "order" => $this->resource->rank,
                 "icon" => $this->resource->icon,
-                "roles" => ['user'],
+                "roles" => ['*'],
                 "ignoreCache" => $this->resource->no_cache,
-                "requiresAuth" => true,
             ],
         ];
     }

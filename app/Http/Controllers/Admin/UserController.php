@@ -5,14 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserSetting\PasswordFormRequest;
-use App\Models\User;
+use App\Http\Resources\Admin\MenuSelectNode;
+use App\Http\Resources\Admin\Permission;
 use App\Services\SystemService;
-use App\Util\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+    public function menu(Request $request, SystemService $systemService)
+    {
+        return Response::ok($systemService->permissionTreeResponse($request, Permission::class));
+    }
+
     public function info(Request $request) {
         $avatar_url = $request->user()->avatar_url ?: '//lf1-xgcdn-tos.pstatp.com/obj/vcloud/vadmin/start.8e0e4855ee346a46ccff8ff3e24db27b.png';
         return Response::ok([

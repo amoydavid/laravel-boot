@@ -26,10 +26,11 @@ return new class extends Migration
             $table->boolean('no_tags_view')->default(false)->comment('是否在tab中隐藏');
             $table->boolean('always_show')->default(true)->comment('是否始终显示');
             $table->string('frame_src', 40)->default('')->comment('iframe网址');
-            $table->string('active_menu', 60)->default('')->comment('强制高度哪个path的菜单');
+            $table->string('active_menu', 60)->default('')->comment('强制高亮哪个path的菜单');
             $table->integer('rank')->nullable()->default(50)->comment('排序');
-            $table->string('icon')->nullable()->default('')->comment('图标');
+            $table->string('icon', 40)->nullable()->default('')->comment('图标');
             $table->smallInteger('type')->default(0)->comment('类型 0菜单 1按钮');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

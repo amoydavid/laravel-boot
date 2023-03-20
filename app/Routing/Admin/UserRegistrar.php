@@ -15,6 +15,7 @@ class UserRegistrar implements \App\Routing\Contracts\RouteRegistrar
 
         Route::prefix($this->prefix)->name($this->prefix.'.')->group(function() {
             Route::post('/info', [UserController::class, 'info'])->name('info');
+            Route::get('/menu', [UserController::class, 'menu'])->name('menu');
             Route::post('/logout', [UserController::class, 'logout'])->name('logout');
             Route::post('/avatar-upload', [UserController::class, 'avatarUpload'])->name('avatarUpload');
             Route::post('/password-modify', [UserController::class, 'modifyPassword'])->name('passwordModify');

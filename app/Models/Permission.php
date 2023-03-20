@@ -11,6 +11,6 @@ class Permission extends Model
 
     protected $fillable = [
         'name', 'parent_id', 'path', 'title', 'component',
-        'show_parent', 'frame_src', 'rank', 'icon', 'type'
+        'show_parent', 'frame_src', 'rank', 'icon', 'type', 'hidden',
     ];
 }

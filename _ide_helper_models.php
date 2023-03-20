@@ -122,10 +122,11 @@ namespace App\Models{
  * @property int $no_tags_view 是否在tab中隐藏
  * @property int $always_show 是否始终显示
  * @property string $frame_src iframe网址
- * @property string $active_menu 强制高度哪个path的菜单
+ * @property string $active_menu 强制高亮哪个path的菜单
  * @property int|null $rank 排序
  * @property string|null $icon 图标
  * @property int $type 类型 0菜单 1按钮
+ * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
@@ -136,6 +137,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereAlwaysShow($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereComponent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereFrameSrc($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereHidden($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereIcon($value)
@@ -183,6 +185,50 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PersonalAccessToken whereUpdatedAt($value)
  */
 	class PersonalAccessToken extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Role
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
+ */
+	class Role extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\RolePermission
+ *
+ * @property int $id
+ * @property int $role_id
+ * @property int $permission_id
+ * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|RolePermission newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RolePermission newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RolePermission query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RolePermission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RolePermission whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RolePermission whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RolePermission wherePermissionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RolePermission whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RolePermission whereUpdatedAt($value)
+ */
+	class RolePermission extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -253,6 +299,27 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\UserRole
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $role_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRole newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRole newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRole query()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRole whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRole whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRole whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRole whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserRole whereUserId($value)
+ */
+	class UserRole extends \Eloquent {}
 }
 
 namespace App\Models{

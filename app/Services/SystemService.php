@@ -8,6 +8,7 @@ use App\Models\Permission;
 use App\Models\UploadFile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
 class SystemService
@@ -157,17 +158,24 @@ class SystemService
         return $tree;
     }
 
-    public function permissionTreeResponse(Request $request):array
+    public function permissionTreeResponse(Request $request, string $responseClass = null):array
     {
+        if ($responseClass === null) {
+            $responseClass = \App\Http\Resources\Admin\Permission::class;
+        }
         $arr = Permission::where("type", '=', 0)->orderBy('parent_id')->get();
         $map = [];
         foreach($arr as $_item) {
             if(empty($map[$_item->parent_id])) {
                 $map[$_item->parent_id] = [];
             }
-            $map[$_item->parent_id][] = \App\Http\Resources\Admin\Permission::make($_item)->toArray($request);
+            $map[$_item->parent_id][] = $responseClass::make($_item)->toArray($request);
         }
 
-        return $this->createTree($map, $map[0]);
+        if($map) {
+            return $this->createTree($map, $map[0]);
+        } else {
+            return [];
+        }
     }
 }
