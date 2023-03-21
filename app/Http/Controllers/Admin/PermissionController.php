@@ -27,7 +27,7 @@ class PermissionController extends \App\Http\Controllers\Controller
     {
         $form = Helper::filterNull($request->only([
             'name', 'parent_id', 'path', 'title', 'component',
-            'show_parent', 'frame_src', 'rank', 'icon', 'type', 'hidden',
+            'show_parent', 'frame_src', 'rank', 'icon', 'type', 'hidden', 'affix'
         ]));
 
         $permission = Permission::create($form);
@@ -42,7 +42,7 @@ class PermissionController extends \App\Http\Controllers\Controller
     {
         $form = Helper::filterNull($request->only([
             'name', 'parent_id', 'path', 'title', 'component',
-            'show_parent', 'frame_src', 'rank', 'icon', 'type', 'hidden',
+            'show_parent', 'frame_src', 'rank', 'icon', 'type', 'hidden', 'affix',
         ]));
 
         if($permission->update($form)) {
