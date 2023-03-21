@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserSetting\PasswordFormRequest;
-use App\Http\Resources\Admin\MenuSelectNode;
 use App\Http\Resources\Admin\Permission;
+use App\Models\RolePermission;
+use App\Models\UserRole;
 use App\Services\SystemService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,7 +16,13 @@ class UserController extends Controller
 {
     public function menu(Request $request, SystemService $systemService)
     {
-        return Response::ok($systemService->permissionTreeResponse($request, Permission::class));
+        if($request->user()->id == 1) {
+            $permissionIds = null;
+        } else {
+            $roleIds = UserRole::where('user_id', $request->user()->id)->get()->pluck('role_id');
+            $permissionIds = RolePermission::whereIn('role_id', $roleIds)->get()->pluck('permission_id');
+        }
+        return Response::ok($systemService->permissionTreeResponse($request, Permission::class, $permissionIds));
     }
 
     public function info(Request $request) {

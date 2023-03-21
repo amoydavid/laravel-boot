@@ -158,12 +158,16 @@ class SystemService
         return $tree;
     }
 
-    public function permissionTreeResponse(Request $request, string $responseClass = null):array
+    public function permissionTreeResponse(Request $request, string $responseClass = null, $permissionIds = null):array
     {
         if ($responseClass === null) {
             $responseClass = \App\Http\Resources\Admin\Permission::class;
         }
-        $arr = Permission::where("type", '=', 0)->orderBy('parent_id')->get();
+        $query = Permission::where("type", '=', 0);
+        if ($permissionIds !== null) {
+            $query->whereIn('id', $permissionIds);
+        }
+        $arr = $query->orderBy('parent_id')->get();
         $map = [];
         foreach($arr as $_item) {
             if(empty($map[$_item->parent_id])) {
