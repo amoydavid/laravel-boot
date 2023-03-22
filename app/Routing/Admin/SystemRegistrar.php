@@ -28,9 +28,17 @@ class SystemRegistrar implements RouteRegistrar
                 Route::post('update/{permission}', [PermissionController::class, 'update']);
             });
 
+            Route::prefix('user')->name('user.')->group(function(){
+                Route::get('', [SystemController::class, 'userList']);
+                Route::post('create', [SystemController::class, 'userCreate'])->name('create');
+                Route::post('update/{user}', [SystemController::class, 'userUpdate']);
+                Route::post('delete/{user}', [SystemController::class, 'userDestroy']);
+            });
+
             Route::prefix('role')->name('role.')->group(function() {
                 Route::get('', [RoleController::class, 'index']);
-                Route::post('create', [RoleController::class, 'create']);
+                Route::get('all', [RoleController::class, 'all']);
+                Route::post('create', [RoleController::class, 'create'])->name('create');
                 Route::post('update/{role}', [RoleController::class, 'update']);
                 Route::post('delete/{role}', [RoleController::class, 'destroy']);
             });

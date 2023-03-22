@@ -25,4 +25,33 @@ class Role extends Model
             }
         });
     }
+
+    public function rolePermissions()
+    {
+        return $this->hasMany(RolePermission::class, 'role_id', 'id');
+    }
+
+    public function updatePermissions($role_ids = [])
+    {
+        $old_ids = $this->rolePermissions->pluck('permission_id')->toArray();
+        $keep_ids = array_intersect($role_ids, $old_ids);
+        $delete_ids = array_diff($old_ids, $keep_ids);
+        $add_ids = array_diff($role_ids, $keep_ids);
+        return \DB::transaction(function () use($delete_ids, $add_ids) {
+            if($delete_ids) {
+                RolePermission::where('role_id', $this->id)->whereIn('permission_id', $delete_ids)->delete();
+            }
+            if($add_ids) {
+                foreach($add_ids as $_id) {
+                    $model = new RolePermission();
+                    $model->role_id = $this->id;
+                    $model->permission_id = $_id;
+                    if(!$model->save()) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        });
+    }
 }

@@ -104,7 +104,28 @@ class SystemService
         $User->password = password_hash($password, PASSWORD_DEFAULT);
         $User->email = $email;
         $User->email_verified_at = date('Y-m-d H:i:s');
-        return $User->save();
+        return $User->save()?$User:false;
+    }
+
+    public function updateAdmin(User $User, string $email, string $password, string $phone, string $name = '')
+    {
+        $existsUser = User::where('email', $email)->where('id', '!=', $User->id)->exists();
+        if($existsUser) {
+            throw new ApiException('同email用户已存在');
+        }
+
+        $existsUser = User::where('phone', $phone)->where('id', '!=', $User->id)->exists();
+        if($existsUser) {
+            throw new ApiException('同手机号用户已存在');
+        }
+
+        $User->phone = $phone;
+        $User->name = $name?:$email;
+        if($password) {
+            $User->password = password_hash($password, PASSWORD_DEFAULT);
+        }
+        $User->email = $email;
+        return $User->save()?$User:false;
     }
 
     public function getGps($address)

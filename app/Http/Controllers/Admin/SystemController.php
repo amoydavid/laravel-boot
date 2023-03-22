@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\System\UserForm;
+use App\Http\Resources\Admin\UserListItem;
 use App\Http\Resources\Api\AreaItem;
 use App\Models\Area;
 use App\Models\Option;
@@ -103,5 +105,44 @@ class SystemController extends Controller
         return Response::ok(
             ["items" => AreaItem::collection($areas)]
         );
+    }
+
+    public function userList(Request $request)
+    {
+        $pager = User::query()->with('roleRelations')->where("id", ">", 1)->orderByDesc('id')->paginate(
+            $request->get('perPage', 10)
+        );
+        return Response::ok(
+            [
+                'items' => UserListItem::collection($pager->items()),
+                'total' => $pager->total(),
+            ]
+        );
+    }
+
+    public function userCreate(UserForm $request, SystemService $systemService)
+    {
+        $form = $request->only(['name', 'email', 'password', 'phone']);
+        $user = $systemService->createAdmin($form['email'], $form['password'], $form['phone'], $form['name']);
+        $user->updateRole($request->get('role_ids'));
+        return $user?Response::ok():Response::fail('创建用户出错');
+    }
+
+    public function userUpdate(UserForm $request, User $user, SystemService $systemService)
+    {
+        $form = $request->only(['name', 'email', 'password', 'phone']);
+        $user = $systemService->updateAdmin($user, $form['email'], $form['password']??'', $form['phone'], $form['name']);
+        $user->updateRole($request->get('role_ids'));
+        return $user?Response::ok():Response::fail('修改用户出错');
+    }
+
+    public function userDestroy(User $user)
+    {
+        //$this->authorize('destroy', $user);
+        if($user->delete()) {
+            return Response::ok();
+        } else {
+            return Response::fail('删除出错');
+        }
     }
 }
