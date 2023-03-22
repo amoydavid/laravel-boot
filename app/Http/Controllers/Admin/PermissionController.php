@@ -10,19 +10,24 @@ use App\Services\SystemService;
 use App\Util\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Attributes\MethodTitle;
 
+#[MethodTitle('权限菜单')]
 class PermissionController extends \App\Http\Controllers\Controller
 {
+    #[MethodTitle('所有权限列表')]
     public function index(Request $request, SystemService $systemService)
     {
         return Response::ok(['items'=>$systemService->permissionTreeResponse($request, MenuSelectNode::class)]);
     }
 
+    #[MethodTitle('所有权限(树形列表)')]
     public function treeSelect(Request $request, SystemService $systemService)
     {
         return Response::ok(['items'=>$systemService->permissionTreeResponse($request, MenuTreeNode::class)]);
     }
 
+    #[MethodTitle('创建新权限')]
     public function create(FormRequest $request)
     {
         $form = Helper::filterNull($request->only([
@@ -38,6 +43,7 @@ class PermissionController extends \App\Http\Controllers\Controller
         }
     }
 
+    #[MethodTitle('编辑权限')]
     public function update(FormRequest $request, Permission $permission)
     {
         $form = Helper::filterNull($request->only([
@@ -52,6 +58,7 @@ class PermissionController extends \App\Http\Controllers\Controller
         }
     }
 
+    #[MethodTitle('删除权限')]
     public function destroy(Permission $permission)
     {
         $this->authorize('destroy', $permission);

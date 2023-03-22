@@ -2,6 +2,7 @@
 
 namespace App\Routing;
 
+use App\Http\Controllers\HelloController;
 use App\Routing\Concerns\MapRouteRegistrars;
 use Illuminate\Contracts\Routing\Registrar;
 
@@ -17,9 +18,7 @@ class DefaultRegistrar implements Contracts\RouteRegistrar
 
     public function map(Registrar $registrar): void
     {
-        $registrar->get('/', function (){
-            return ['App' => app()->version()];
-        })->name('index');
+        $registrar->get('/', [HelloController::class, 'hello'])->name('index');
 
         $this->mapRoutes($registrar, $this->registrars);
 //        \Route::get('/hello', function (){
