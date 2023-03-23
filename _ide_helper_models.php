@@ -129,6 +129,8 @@ namespace App\Models{
  * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PermissionRoute[] $routeRelations
+ * @property-read int|null $route_relations_count
  * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Permission query()
@@ -153,6 +155,27 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
  */
 	class Permission extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\PermissionRoute
+ *
+ * @property int $id
+ * @property int $permission_id
+ * @property int $route_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionRoute newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionRoute newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionRoute query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionRoute whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionRoute whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionRoute wherePermissionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionRoute whereRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionRoute whereUpdatedAt($value)
+ */
+	class PermissionRoute extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -196,6 +219,8 @@ namespace App\Models{
  * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RolePermission[] $rolePermissions
+ * @property-read int|null $role_permissions_count
  * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Role query()
@@ -229,6 +254,35 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|RolePermission whereUpdatedAt($value)
  */
 	class RolePermission extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\SysRoute
+ *
+ * @property int $id
+ * @property int $parent_id 上级
+ * @property string|null $title 名称
+ * @property string|null $handler 调用方
+ * @property string|null $method 方法
+ * @property string|null $route 路由
+ * @property string|null $type 类型
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute query()
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute whereHandler($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute whereMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute whereRoute($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SysRoute whereUpdatedAt($value)
+ */
+	class SysRoute extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -280,6 +334,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserRole[] $roleRelations
+ * @property-read int|null $role_relations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)

@@ -41,6 +41,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function isSuperAdmin() {
+        return $this->id == 1;
+    }
+
     public function roles() {
         return $this->hasManyThrough(Role::class, UserRole::class);
     }

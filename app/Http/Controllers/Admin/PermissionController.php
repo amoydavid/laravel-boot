@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Attributes\MethodType;
 use App\Http\Requests\Admin\Permission\FormRequest;
 use App\Http\Resources\Admin\MenuSelectNode;
 use App\Http\Resources\Admin\MenuTreeNode;
+use App\Http\Resources\Admin\RouteTreeNode;
 use App\Models\Permission;
 use App\Services\SystemService;
 use App\Util\Helper;
@@ -27,16 +29,24 @@ class PermissionController extends \App\Http\Controllers\Controller
         return Response::ok(['items'=>$systemService->permissionTreeResponse($request, MenuTreeNode::class)]);
     }
 
+    #[MethodTitle('路由树形列表')]
+    public function routeTree(Request $request, SystemService $systemService)
+    {
+        return Response::ok(['items'=>$systemService->routeTreeResponse($request, RouteTreeNode::class)]);
+    }
+
     #[MethodTitle('创建新权限')]
     public function create(FormRequest $request)
     {
         $form = Helper::filterNull($request->only([
             'name', 'parent_id', 'path', 'title', 'component',
-            'show_parent', 'frame_src', 'rank', 'icon', 'type', 'hidden', 'affix'
+            'show_parent', 'frame_src', 'rank', 'icon', 'type', 'hidden', 'affix',
+            'route_ids'
         ]));
 
         $permission = Permission::create($form);
         if($permission) {
+            $permission->updateRoutes($form['route_ids']);
             return Response::ok();
         } else {
             return Response::fail('保存出错');
@@ -49,9 +59,11 @@ class PermissionController extends \App\Http\Controllers\Controller
         $form = Helper::filterNull($request->only([
             'name', 'parent_id', 'path', 'title', 'component',
             'show_parent', 'frame_src', 'rank', 'icon', 'type', 'hidden', 'affix',
+            'route_ids'
         ]));
 
         if($permission->update($form)) {
+            $permission->updateRoutes($form['route_ids']);
             return Response::ok();
         } else {
             return Response::fail('保存出错');

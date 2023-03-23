@@ -21,21 +21,22 @@ class SystemRegistrar implements RouteRegistrar
             Route::post('upload', [SystemController::class, 'upload']);
             Route::get('fetch-area', [SystemController::class, 'fetchArea']);
 
-            Route::prefix('permission')->name('permission.')->group(function() {
+            Route::prefix('permission')->middleware(['rbac'])->name('permission.')->group(function() {
                 Route::get('', [PermissionController::class, 'index']);
                 Route::get('all', [PermissionController::class, 'treeSelect']);
                 Route::post('create', [PermissionController::class, 'create']);
                 Route::post('update/{permission}', [PermissionController::class, 'update']);
+                Route::get('routes', [PermissionController::class, 'routeTree']);
             });
 
-            Route::prefix('user')->name('user.')->group(function(){
+            Route::prefix('user')->middleware(['rbac'])->name('user.')->group(function(){
                 Route::get('', [SystemController::class, 'userList']);
                 Route::post('create', [SystemController::class, 'userCreate'])->name('create');
                 Route::post('update/{user}', [SystemController::class, 'userUpdate']);
                 Route::post('delete/{user}', [SystemController::class, 'userDestroy']);
             });
 
-            Route::prefix('role')->name('role.')->group(function() {
+            Route::prefix('role')->middleware(['rbac'])->name('role.')->group(function() {
                 Route::get('', [RoleController::class, 'index']);
                 Route::get('all', [RoleController::class, 'all']);
                 Route::post('create', [RoleController::class, 'create'])->name('create');

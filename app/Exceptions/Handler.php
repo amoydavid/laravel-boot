@@ -105,7 +105,7 @@ class Handler extends ExceptionHandler
         }elseif($e instanceof HttpException) {
             return \Response::json($this->convertExceptionToArray($e), $e->getStatusCode());
         } elseif ($e instanceof AuthorizationException) {
-            return Response::fail("您没有权限访问此功能", 500);
+            return Response::fail("Access denied", 403);
         } elseif ($e instanceof ModelNotFoundException) {
             if(config('app.env')!='production') {
                 return parent::render($request, $e);

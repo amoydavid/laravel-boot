@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\MiniAppSignature;
 use App\Http\Middleware\RequireAdmin;
+use App\Http\Middleware\RouteRbacAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         'mini-sign' => MiniAppSignature::class,
         'require-admin' => RequireAdmin::class,
+        'rbac' => RouteRbacAuth::class,
     ];
 }

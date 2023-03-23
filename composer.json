@@ -1,7 +1,7 @@
 {
-    "name": "nanodeer/naming",
+    "name": "nanodeer/laravel-boot",
     "type": "project",
-    "description": "The Naming project",
+    "description": "laravel boot project",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {

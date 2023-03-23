@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Exceptions\ApiException;
+use App\Http\Resources\Admin\MenuSelectNode;
 use App\Models\MiniScene;
 use App\Models\Permission;
+use App\Models\SysRoute;
 use App\Models\UploadFile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -185,10 +187,37 @@ class SystemService
             $responseClass = \App\Http\Resources\Admin\Permission::class;
         }
         $query = Permission::where("type", '=', 0);
+        if($responseClass == MenuSelectNode::class) {
+            $query->with('routeRelations');
+        }
         if ($permissionIds !== null) {
             $query->whereIn('id', $permissionIds);
         }
         $arr = $query->orderBy('parent_id')->get();
+        $map = [];
+        foreach($arr as $_item) {
+            if(empty($map[$_item->parent_id])) {
+                $map[$_item->parent_id] = [];
+            }
+            $map[$_item->parent_id][] = $responseClass::make($_item)->toArray($request);
+        }
+
+        if($map) {
+            return $this->createTree($map, $map[0]);
+        } else {
+            return [];
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param JsonResource|string $responseClass
+     * @return array
+     */
+    public function routeTreeResponse(Request $request, JsonResource|string $responseClass):array
+    {
+        $query = SysRoute::query();
+        $arr = $query->orderBy('parent_id')->orderBy('route')->get();
         $map = [];
         foreach($arr as $_item) {
             if(empty($map[$_item->parent_id])) {

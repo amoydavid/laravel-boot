@@ -26,6 +26,7 @@ class MenuSelectNode extends \Illuminate\Http\Resources\Json\JsonResource
             "rank" => $this->resource->rank,
             "icon" => $this->resource->icon,
             "no_cache" => $this->resource->no_cache,
+            "route_ids" => $this->whenLoaded('routeRelations', $this->resource->routeRelations->pluck('route_id'), []),
         ];
     }
 }
