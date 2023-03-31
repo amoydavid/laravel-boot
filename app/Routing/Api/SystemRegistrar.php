@@ -4,6 +4,7 @@ namespace App\Routing\Api;
 
 use App\Http\Controllers\Api\SystemController;
 use Illuminate\Contracts\Routing\Registrar;
+use Mews\Captcha\CaptchaController;
 use Route;
 
 class SystemRegistrar implements \App\Routing\Contracts\RouteRegistrar
@@ -24,6 +25,7 @@ class SystemRegistrar implements \App\Routing\Contracts\RouteRegistrar
 
     protected function guestRoute() {
         Route::get('scene', [SystemController::class, 'parseScene']); //解析小程序码
+        Route::get('captcha/{config?}', [CaptchaController::class, 'getCaptchaApi']);
     }
 
     protected function userRoute() {

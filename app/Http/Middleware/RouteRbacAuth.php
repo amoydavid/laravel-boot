@@ -25,7 +25,6 @@ class RouteRbacAuth
         $uri = $request->route()->uri;
         $routeModel = SysRoute::where('method', $method)->where('route', $uri)->first();
         if($routeModel) {
-
             $role_ids = $user->roleRelations->pluck('role_id');
             $permission_ids = RolePermission::whereIn('role_id', $role_ids)->pluck('permission_id');
             $exists = PermissionRoute::query()->whereIn('permission_id', $permission_ids)->where('route_id', $routeModel->id)->exists();

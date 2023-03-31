@@ -15,6 +15,7 @@
         "laravel/sanctum": "^2.14",
         "laravel/telescope": "^4.7",
         "laravel/tinker": "^2.7",
+        "mews/captcha": "^3.3",
         "overtrue/laravel-filesystem-qiniu": "^2.1",
         "overtrue/laravel-wechat": "^7.1",
         "overtrue/pinyin": "^5.0",

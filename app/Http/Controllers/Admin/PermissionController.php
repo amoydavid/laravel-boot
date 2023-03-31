@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Attributes\MethodType;
 use App\Http\Requests\Admin\Permission\FormRequest;
 use App\Http\Resources\Admin\MenuSelectNode;
 use App\Http\Resources\Admin\MenuTreeNode;
