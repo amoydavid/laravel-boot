@@ -35,4 +35,43 @@ return [
         'sk' => env('QQ_MAP_WEB_SERVICE_SECRET_KEY'),
     ],
 
+    'easy-sms' => [
+        // HTTP 请求的超时时间（秒）
+        'timeout' => 5.0,
+
+        // 默认发送配置
+        'default' => [
+            // 网关调用策略，默认：顺序调用
+            'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class,
+
+            // 默认可用的发送网关
+            'gateways' => [
+                'qcloud',
+            ],
+        ],
+        // 可用的网关配置
+        'gateways' => [
+            // 'errorlog' => [
+            //     'file' => '/tmp/easy-sms.log',
+            // ],
+            'sendcloud' => [
+                'sms_user' => env('EASY_SMS_SEND_CLOUD_USER'),
+                'sms_key' => env('EASY_SMS_SEND_CLOUD_KEY'),
+                'timestamp' => false, // 是否启用时间戳
+            ],
+            'aliyun' => [
+                'access_key_id' => env('EASY_SMS_ALIYUN_KEY_ID'),
+                'access_key_secret' =>  env('EASY_SMS_ALIYUN_API_KEY'),
+                'sign_name' => '',
+            ],
+            'qcloud' => [
+                'sdk_app_id' => env('EASY_SMS_QCLOUD_SDK_APP_ID'), // 短信应用的 SDK APP ID
+                // 'sdk_app_key' => env('EASY_SMS_QCLOUD_APP_KEY'), // 短信应用的 SDK APP KEY
+                'secret_id' => env('EASY_SMS_QCLOUD_SECRET_ID'), // SECRET ID
+                'secret_key' => env('EASY_SMS_QCLOUD_SECRET_KEY'), // SECRET KEY
+                'sign_name' => env('EASY_SMS_QCLOUD_SIGN_NAME'), // 短信签名
+            ],
+            //...
+        ],
+    ],
 ];

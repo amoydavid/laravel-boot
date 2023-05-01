@@ -64,6 +64,60 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\DictType
+ *
+ * @property int $id
+ * @property string $name 名称
+ * @property string $alias 键名
+ * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType filter(?array $input = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictType whereUpdatedAt($value)
+ */
+	class DictType extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\DictValue
+ *
+ * @property int $id
+ * @property int $dict_id
+ * @property string $alias 键名
+ * @property string $dict_value 键值
+ * @property string $dict_label 显示名
+ * @property int $sort_order 排序
+ * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue filter(?array $input = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue query()
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue whereDictId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue whereDictLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue whereDictValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DictValue whereUpdatedAt($value)
+ */
+	class DictValue extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\MiniScene
  *
  * @property int $id
