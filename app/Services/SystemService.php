@@ -202,11 +202,37 @@ class SystemService
             $map[$_item->parent_id][] = $responseClass::make($_item)->toArray($request);
         }
 
+        $tree = $this->createTree($map, $map[0]);
+
+        $extraIds = [];
+        // 仍有独立节点的，要合并父节点后再树型化
+        foreach($map as $_items) {
+            if ($_items) {
+                foreach($_items as $_item) {
+                    $parentIds = $this->fetchParentId($_item['id']);
+                    $extraIds = array_merge($extraIds, $parentIds);
+                }
+            }
+        }
+        if ($permissionIds !== null && count($extraIds) > 0) {
+            return $this->permissionTreeResponse($request, $responseClass, array_merge($permissionIds, $extraIds));
+        }
+
         if($map) {
-            return $this->createTree($map, $map[0]);
+            return $tree;
         } else {
             return [];
         }
+    }
+
+    private function fetchParentId($permId)
+    {
+        $parentIds = [];
+        do {
+            $perm = Permission::where('id', $permId)->first();
+            $parentIds[] = $perm->parent_id;
+        }while($perm->parent_id == 0);
+        return $parentIds;
     }
 
     /**
