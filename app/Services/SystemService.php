@@ -169,7 +169,7 @@ class SystemService
         return md5($before_sign);
     }
 
-    private function createTree(&$list, $parent):array
+    private function createTree(&$list, &$parent):array
     {
         $tree = array();
         foreach ($parent as $k=>$l){
@@ -177,6 +177,7 @@ class SystemService
                 $l['children'] = $this->createTree($list, $list[$l['id']]);
             }
             $tree[] = $l;
+            unset($parent[$k]);
         }
         return $tree;
     }
@@ -204,19 +205,22 @@ class SystemService
 
         $tree = $this->createTree($map, $map[0]);
 
-        $extraIds = [];
-        // 仍有独立节点的，要合并父节点后再树型化
-        foreach($map as $_items) {
-            if ($_items) {
-                foreach($_items as $_item) {
-                    $parentIds = $this->fetchParentId($_item['id']);
-                    $extraIds = array_merge($extraIds, $parentIds);
+        if ($permissionIds !== null ) {
+            $extraIds = [];
+            // 仍有独立节点的，要合并父节点后再树型化
+            foreach($map as $_items) {
+                if ($_items) {
+                    foreach($_items as $_item) {
+                        $parentIds = $this->fetchParentId($_item['id']);
+                        $extraIds = array_merge($extraIds, $parentIds);
+                    }
                 }
             }
+            if (count($extraIds) > 0) {
+                return $this->permissionTreeResponse($request, $responseClass, array_merge($permissionIds, $extraIds));
+            }
         }
-        if ($permissionIds !== null && count($extraIds) > 0) {
-            return $this->permissionTreeResponse($request, $responseClass, array_merge($permissionIds, $extraIds));
-        }
+
 
         if($map) {
             return $tree;

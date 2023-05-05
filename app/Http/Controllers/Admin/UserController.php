@@ -19,8 +19,8 @@ class UserController extends Controller
         if($request->user()->id == 1) {
             $permissionIds = null;
         } else {
-            $roleIds = UserRole::where('user_id', $request->user()->id)->get()->pluck('role_id');
-            $permissionIds = RolePermission::whereIn('role_id', $roleIds)->get()->pluck('permission_id');
+            $roleIds = UserRole::where('user_id', $request->user()->id)->get()->pluck('role_id')->toArray();
+            $permissionIds = RolePermission::whereIn('role_id', $roleIds)->get()->pluck('permission_id')->toArray();
         }
         return Response::ok($systemService->permissionTreeResponse($request, Permission::class, $permissionIds));
     }
