@@ -45,7 +45,7 @@ class PermissionController extends \App\Http\Controllers\Controller
 
         $permission = Permission::create($form);
         if($permission) {
-            $permission->updateRoutes($form['route_ids']);
+            $permission->updateRoutes($form['route_ids']??[]);
             return Response::ok();
         } else {
             return Response::fail('保存出错');
@@ -62,7 +62,7 @@ class PermissionController extends \App\Http\Controllers\Controller
         ]));
 
         if($permission->update($form)) {
-            $permission->updateRoutes($form['route_ids']);
+            $permission->updateRoutes($form['route_ids']??[]);
             return Response::ok();
         } else {
             return Response::fail('保存出错');
