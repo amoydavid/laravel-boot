@@ -26,8 +26,8 @@ INSERT INTO permissions (parent_id, name, path, title, component, hidden, no_cac
 INSERT INTO permissions (parent_id, name, path, title, component, hidden, no_cache, affix, no_tags_view, always_show, frame_src, active_menu, `rank`, icon, type, deleted_at, created_at, updated_at) VALUES (3, 'dict', 'dict', '字典管理', 'system/dict/index', 0, 0, 1, 0, 1, '', '', 50, '', 0, null, '2023-04-12 19:54:12', '2023-04-12 19:59:12');
 INSERT INTO permissions (parent_id, name, path, title, component, hidden, no_cache, affix, no_tags_view, always_show, frame_src, active_menu, `rank`, icon, type, deleted_at, created_at, updated_at) VALUES (3, 'dict_value', 'dict-value', '键值管理', 'system/dict/value', 1, 0, 1, 1, 0, '', '', 50, '', 0, null, '2023-04-12 19:54:12', '2023-04-12 19:59:12');
 INSERT INTO permissions (parent_id, name, path, title, component, hidden, no_cache, affix, no_tags_view, always_show, frame_src, active_menu, `rank`, icon, type, deleted_at, created_at, updated_at) VALUES (0, 'user_center', '/user', '用户中心', 'default-layout', 1, 0, 0, 0, 0, '', '', 200, '', 0, null, null, null);
-INSERT INTO permissions (parent_id, name, path, title, component, hidden, no_cache, affix, no_tags_view, always_show, frame_src, active_menu, `rank`, icon, type, deleted_at, created_at, updated_at) VALUES (11, 'Info', 'info', '用户设置', 'user/setting/index', 1, 0, 0, 0, 0, '', '', 50, '', 0, null, null, null);
-        
+INSERT INTO permissions (parent_id, name, path, title, component, hidden, no_cache, affix, no_tags_view, always_show, frame_src, active_menu, `rank`, icon, type, deleted_at, created_at, updated_at) VALUES (9, 'Info', 'info', '用户设置', 'user/setting/index', 1, 0, 0, 0, 0, '', '', 50, '', 0, null, null, null);
+
 TEXT;
         $commands = explode(";", $sql);
         DB::beginTransaction();
