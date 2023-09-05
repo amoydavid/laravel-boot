@@ -21,7 +21,7 @@ class Option extends Model
     public static function getValue($key, $default = null) {
         $cache_key = 'option.'.$key;
         $option = \Cache::get($cache_key);
-        if($option === false || config('app.env') === 'local') {
+        if($option === null || config('app.env') === 'local') {
             $option = self::query()->where('key', $key)->select('config')->first();
             if($option) {
                 \Cache::set($cache_key, $option, 3600);

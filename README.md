@@ -152,3 +152,94 @@ php artisan lang:update
 users表中id为1的即为超管，其余为普通管理员。
 
 `php artisan app:create.admin`将创建一个新管理员。
+
+## REMI 安装
+
+[原始来源](https://rpms.remirepo.net/wizard/?spm=a2c6h.13651104.mirror-free-trial.2.31697fbdKIW4Mh) 
+
+### CentOS 7 示例
+
+```shell
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum install https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum install yum-utils
+yum install php82-php-cli php82-php-fpm php82-php-gd php82-php-sodium php82-php-pecl-memcached php82-php-mbstring php82-php-mysqlnd php82-php-xml php82-php-pecl-zip php82-php-pecl-redis5 php82-php-bcmath
+```
+
+### 添加 www-data 用户
+
+```shell
+groupadd www-data
+useradd -d /www -g www-data www-data
+```
+
+修改 nginx 和 php-fpm 的运行用户
+
+确认 `/var/lib/nginx/tmp/` 之下的目录都是 www-data:root 归属
+
+### nginx 配置
+
+可使用 `https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhCN` 提供的配置工具执行
+
+反代配置
+```
+    # index.html fallback
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location ^~ /admin/ {
+        alias  /www/admin-front/www/;
+    }
+
+    location ^~ /storage/ {
+        alias  /www/php-server/current/public/storage/;
+    }
+
+    # index.php fallback
+    location ~ ^/api/ {
+        proxy_pass            http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        include               proxy.conf;
+        #try_files $uri $uri/ /index.php?$query_string;
+    }
+```
+
+PHP配置
+```
+server {
+    listen 127.0.0.1:8000;
+    server_name www.domain.com;
+    root /www/php-server/current/public;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    access_log              /var/log/nginx/php-access.log combined buffer=512k flush=1m;
+    error_log               /var/log/nginx/php-error.log warn;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        #fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
