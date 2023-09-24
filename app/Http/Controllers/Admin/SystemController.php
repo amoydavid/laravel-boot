@@ -109,7 +109,12 @@ class SystemController extends Controller
 
     public function userList(Request $request)
     {
-        $pager = User::query()->with('roleRelations')->where("id", ">", 1)->orderByDesc('id')->paginate(
+        $pager = User::query()
+            ->with('roleRelations')
+            ->where("id", ">", 1)
+            ->orderByDesc('id')
+            ->filter($request->all())
+            ->paginate(
             $request->get('perPage', 10)
         );
         return Response::ok(
@@ -124,7 +129,7 @@ class SystemController extends Controller
     {
         $form = $request->only(['name', 'email', 'password', 'phone']);
         $user = $systemService->createAdmin($form['email'], $form['password'], $form['phone'], $form['name']);
-        $user->updateRole($request->get('role_ids'));
+        $user->updateRole($request->get('role_ids', []));
         return $user?Response::ok():Response::fail('创建用户出错');
     }
 
@@ -132,7 +137,7 @@ class SystemController extends Controller
     {
         $form = $request->only(['name', 'email', 'password', 'phone']);
         $user = $systemService->updateAdmin($user, $form['email'], $form['password']??'', $form['phone'], $form['name']);
-        $user->updateRole($request->get('role_ids'));
+        $user->updateRole($request->get('role_ids', []));
         return $user?Response::ok():Response::fail('修改用户出错');
     }
 

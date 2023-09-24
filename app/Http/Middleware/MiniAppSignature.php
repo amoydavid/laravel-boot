@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 
 class MiniAppSignature
 {
@@ -21,6 +22,9 @@ class MiniAppSignature
             $signString = '';
 
             foreach($params as $key => $value) {
+                if($value instanceof UploadedFile) {
+                    continue;
+                }
                 if(is_bool($value)) {
                     $value = intval($value);
                 }

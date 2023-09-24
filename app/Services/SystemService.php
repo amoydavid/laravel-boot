@@ -123,7 +123,7 @@ class SystemService
 
         $User->phone = $phone;
         $User->name = $name?:$email;
-        if($password) {
+        if(strlen($password)>0) {
             $User->password = password_hash($password, PASSWORD_DEFAULT);
         }
         $User->email = $email;

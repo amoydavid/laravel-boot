@@ -13,7 +13,7 @@ class MenuSelectNode extends \Illuminate\Http\Resources\Json\JsonResource
     {
         return [
             "id" => $this->resource->id,
-            "parent_id" => $this->resource->parent_id?:null,
+            "parent_id" => $this->resource->parent_id,
             "name" => $this->resource->name,
             "path" => $this->resource->path,
             "component" => $this->resource->component,
