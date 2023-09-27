@@ -1,0 +1,23 @@
+import:
+  - recipe/laravel.php
+
+config:
+  repository: 'git@git.nanodeer.com:whiletrue/kf-note-server.git'
+
+hosts:
+  prod:
+    http_user: www
+    git_ssh_command: 'ssh -o StrictHostKeyChecking=no'
+    hostname: 43.138.168.52
+    remote_user: www
+    deploy_path: '/www/data/kf-note-server'
+
+tasks:
+  build:
+    - run: uptime
+  requeue:
+    - run: "{{bin/php}} {{current_path}}/artisan queue:restart"
+
+after:
+  deploy:symlink: requeue
+  deploy:failed: deploy:unlock
