@@ -32,7 +32,7 @@ class UserController extends Controller
     }
 
     public function info(Request $request) {
-        $avatar_url = $request->user()->avatar_url ?: '//lf1-xgcdn-tos.pstatp.com/obj/vcloud/vadmin/start.8e0e4855ee346a46ccff8ff3e24db27b.png';
+        $avatar_url = $request->user()->avatar_url ?: '';
         return Response::ok([
             'name' => $request->user()->name,
             'avatar' => $avatar_url,
