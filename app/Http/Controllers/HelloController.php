@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-//use App\Attributes\MethodTitle;
+//use App\Attributes\RbacTitle;
 //use App\Http\Controllers\Admin\PermissionController;
 //use App\Http\Controllers\Admin\SystemController;
 //use Illuminate\Support\Str;
@@ -25,16 +25,16 @@ class HelloController extends Controller
 //                }
 //                $titleArr = [];
 //                $classRef = new \ReflectionClass($classMethod[0]);
-//                $classAttrs = $classRef->getAttributes(MethodTitle::class);
+//                $classAttrs = $classRef->getAttributes(RbacTitle::class);
 //                if($classAttrs) {
 //                    $titleArr[] = $classAttrs[0]->newInstance()->title;
 //                }
 //
 //                $ref = new \ReflectionMethod($classMethod[0], $classMethod[1]);
-//                $attrs = $ref->getAttributes(MethodTitle::class);
+//                $attrs = $ref->getAttributes(RbacTitle::class);
 //                if($attrs) {
-//                    $methodTitle = $attrs[0]->newInstance()->title;
-//                    $titleArr[] = $methodTitle;
+//                    $RbacTitle = $attrs[0]->newInstance()->title;
+//                    $titleArr[] = $RbacTitle;
 //                }
 //
 //                $data[] = [

@@ -11,30 +11,36 @@ use App\Services\SystemService;
 use App\Util\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Attributes\MethodTitle;
+use App\Attributes\RbacTitle;
 
-#[MethodTitle('权限菜单')]
+#[RbacTitle('权限菜单')]
 class PermissionController extends \App\Http\Controllers\Controller
 {
-    #[MethodTitle('所有权限列表')]
+    #[RbacTitle('所有权限列表')]
     public function index(Request $request, SystemService $systemService)
     {
         return Response::ok(['items'=>$systemService->permissionTreeResponse($request, MenuSelectNode::class)]);
     }
 
-    #[MethodTitle('所有权限(树形列表)')]
+    /**
+     * 权限树形结构，用于添加权限时指定父级
+     */
+    #[RbacTitle('所有权限(树形列表)')]
     public function treeSelect(Request $request, SystemService $systemService)
     {
         return Response::ok(['items'=>$systemService->permissionTreeResponse($request, MenuTreeNode::class)]);
     }
 
-    #[MethodTitle('路由树形列表')]
+    /**
+     * 后端路由列表，用于菜单选择
+     */
+    #[RbacTitle('路由树形列表')]
     public function routeTree(Request $request, SystemService $systemService)
     {
         return Response::ok(['items'=>$systemService->routeTreeResponse($request, RouteTreeNode::class)]);
     }
 
-    #[MethodTitle('创建新权限')]
+    #[RbacTitle('创建新权限')]
     public function create(FormRequest $request)
     {
         $form = Helper::filterNull($request->only([
@@ -52,7 +58,7 @@ class PermissionController extends \App\Http\Controllers\Controller
         }
     }
 
-    #[MethodTitle('编辑权限')]
+    #[RbacTitle('编辑权限')]
     public function update(FormRequest $request, Permission $permission)
     {
         $form = Helper::filterNull($request->only([
@@ -69,7 +75,7 @@ class PermissionController extends \App\Http\Controllers\Controller
         }
     }
 
-    #[MethodTitle('删除权限')]
+    #[RbacTitle('删除权限')]
     public function destroy(Permission $permission)
     {
         $this->authorize('destroy', $permission);

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Attributes\MethodTitle;
+use App\Attributes\RbacTitle;
 use App\Attributes\MethodType;
 use App\Models\SysRoute;
 use Illuminate\Console\Command;
@@ -44,18 +44,18 @@ class SaveAdminRoute extends Command
                     $classMethod[0] = '\\'.$classMethod[0];
                 }
                 $classRef = new \ReflectionClass($classMethod[0]);
-                $classAttrs = $classRef->getAttributes(MethodTitle::class);
+                $classAttrs = $classRef->getAttributes(RbacTitle::class);
                 $classTitle = '';
                 if($classAttrs) {
                     $classTitle = $classAttrs[0]->newInstance()->title;
                 }
 
                 $ref = new \ReflectionMethod($classMethod[0], $classMethod[1]);
-                $attrs = $ref->getAttributes(MethodTitle::class);
+                $attrs = $ref->getAttributes(RbacTitle::class);
                 if($attrs) {
-                    $methodTitle = $attrs[0]->newInstance()->title;
+                    $RbacTitle = $attrs[0]->newInstance()->title;
                 } else {
-                    $methodTitle = '';
+                    $RbacTitle = '';
                 }
 
                 $typeAttrs = $ref->getAttributes(MethodType::class);
@@ -67,7 +67,7 @@ class SaveAdminRoute extends Command
                 $item =  [
                     'class' => $classMethod[0],
                     'classTitle' => $classTitle?:(str_replace("\App\Http\Controllers\\", "", $classMethod[0])),
-                    'methodTitle' => $methodTitle?:$classMethod[1],
+                    'rbacTitle' => $RbacTitle?:$classMethod[1],
                     'controller' => $classMethod,
                     "prefix" => !empty($route->action["prefix"]) ?   $route->action["prefix"] : '',
                     "uri" => $route->uri,
@@ -86,7 +86,7 @@ class SaveAdminRoute extends Command
                 $targetRoute = SysRoute::query()->where('route', $item['uri'])->where('method', $item['method'])->firstOrNew();
                 $targetRoute->parent_id = $parentRoute->id;
                 $targetRoute->handler = join('@', $item['controller']);
-                $targetRoute->title = $item['methodTitle'];
+                $targetRoute->title = $item['rbacTitle'];
                 $targetRoute->route = $item['uri'];
                 $targetRoute->method = $item['method'];
                 $targetRoute->type = $item['type'];
