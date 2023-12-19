@@ -31,6 +31,18 @@ class UserController extends Controller
             $permissionIds));
     }
 
+    public function button(Request $request, SystemService $systemService)
+    {
+        if($request->user()->id == 1) {
+            $permissionIds = null;
+        } else {
+            $roleIds = UserRole::where('user_id', $request->user()->id)->get()->pluck('role_id')->toArray();
+            $permissionIds = RolePermission::whereIn('role_id', $roleIds)->get()->pluck('permission_id')->toArray();
+        }
+
+        return Response::ok($systemService->allButtonResponse($permissionIds));
+    }
+
     public function info(Request $request) {
         $avatar_url = $request->user()->avatar_url ?: '';
         return Response::ok([

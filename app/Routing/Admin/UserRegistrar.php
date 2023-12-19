@@ -12,10 +12,10 @@ class UserRegistrar implements \App\Routing\Contracts\RouteRegistrar
     protected string $prefix = 'user';
     public function map(Registrar $registrar): void
     {
-
         Route::prefix($this->prefix)->name($this->prefix.'.')->group(function() {
             Route::post('/info', [UserController::class, 'info'])->name('info');
             Route::get('/menu', [UserController::class, 'menu'])->name('menu');
+            Route::get('/button', [UserController::class, 'button'])->name('button');
             Route::post('/logout', [UserController::class, 'logout'])->name('logout');
             Route::post('/avatar-upload', [UserController::class, 'avatarUpload'])->name('avatarUpload');
             Route::post('/password-modify', [UserController::class, 'modifyPassword'])->name('passwordModify');

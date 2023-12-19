@@ -182,12 +182,28 @@ class SystemService
         return $tree;
     }
 
+    public function allButtonResponse($permissionIds = null):array
+    {
+        $query = Permission::whereIn("type", [Permission::TYPE_ACTION]);
+        if ($permissionIds !== null) {
+            $query->whereIn('id', $permissionIds);
+        }
+        $list = $query->get();
+
+        if($list) {
+            return $list->pluck('component')->all();
+        } else {
+            return [];
+        }
+    }
+
+
     public function permissionTreeResponse(Request $request, string $responseClass = null, $permissionIds = null):array
     {
         if ($responseClass === null) {
             $responseClass = \App\Http\Resources\Admin\Permission::class;
         }
-        $query = Permission::where("type", '=', 0);
+        $query = Permission::whereIn("type", [Permission::TYPE_MENU]);
         if($responseClass == MenuSelectNode::class) {
             $query->with('routeRelations');
         }
