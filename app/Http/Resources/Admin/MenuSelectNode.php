@@ -23,6 +23,7 @@ class MenuSelectNode extends \Illuminate\Http\Resources\Json\JsonResource
             "active_menu" => $this->resource->active_menu,
             "affix" => $this->resource->affix,
             "frame_src" => $this->resource->frame_src,
+            "type" => $this->resource->type,
             "rank" => $this->resource->rank,
             "icon" => $this->resource->icon,
             "no_cache" => $this->resource->no_cache,

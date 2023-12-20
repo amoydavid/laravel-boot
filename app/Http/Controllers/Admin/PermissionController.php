@@ -28,7 +28,7 @@ class PermissionController extends \App\Http\Controllers\Controller
     #[RbacTitle('所有权限(树形列表)')]
     public function treeSelect(Request $request, SystemService $systemService)
     {
-        return Response::ok(['items'=>$systemService->permissionTreeResponse($request, MenuTreeNode::class)]);
+        return Response::ok(['items'=>$systemService->permissionTreeResponse($request, MenuTreeNode::class, null, Permission::TYPE_MENU)]);
     }
 
     /**

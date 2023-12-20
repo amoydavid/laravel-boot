@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UserSetting\PasswordFormRequest;
 use App\Http\Resources\Admin\ElePermission;
 use App\Http\Resources\Admin\Permission;
 use App\Models\RolePermission;
+use App\Models\Permission as PermissionModel;
 use App\Models\UserRole;
 use App\Services\SystemService;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class UserController extends Controller
 
         return Response::ok($systemService->permissionTreeResponse($request,
             $isElementClient?ElePermission::class:Permission::class,
-            $permissionIds));
+            $permissionIds, PermissionModel::TYPE_MENU));
     }
 
     public function button(Request $request, SystemService $systemService)
